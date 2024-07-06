@@ -17,7 +17,9 @@ namespace AdventureQuestRPG
         public int Experience { get; set; }
         public int Level { get; set; }
         public int ExperienceToLevelUp { get; set; }
-        public Player(string name, int health = 100, int attackPower = 30, int defense = 10)
+
+        public Location Location { get; set; }
+        public Player(string name, int health = 100, int attackPower = 30, int defense = 10, Location location = Location.Forest)
         {
             Name = name;
             Health = health;
@@ -26,6 +28,7 @@ namespace AdventureQuestRPG
             Experience = 0;
             Level = 1;
             ExperienceToLevelUp = 100;
+            Location = location;
         }
         public void GainExperience(int amount)
         {
