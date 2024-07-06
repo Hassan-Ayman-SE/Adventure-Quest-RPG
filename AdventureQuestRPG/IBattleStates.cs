@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdventureQuestRPG
 {
-    internal interface IBattleStates
+    public interface IBattleStates
     {
         //props
         string Name { get; set; }
