@@ -19,6 +19,10 @@ namespace AdventureQuestRPG
         public int ExperienceToLevelUp { get; set; }
 
         public Location Location { get; set; }
+
+        public Inventory? Inventory { get; set; }
+
+        public List<Skill>? Skills { get; set; }
         public Player(string name, int health = 100, int attackPower = 30, int defense = 10, Location location = Location.Forest)
         {
             Name = name;
@@ -29,6 +33,12 @@ namespace AdventureQuestRPG
             Level = 1;
             ExperienceToLevelUp = 100;
             Location = location;
+            Inventory = new Inventory();
+            Skills = new List<Skill>
+            {
+                new SpecialAttackSkill ("Fireball", "A powerful fire attack.", 10),
+                new HealingSkill("Heal", "Restores 20 health points.", 20)
+            };
         }
         public void GainExperience(int amount)
         {
@@ -49,6 +59,63 @@ namespace AdventureQuestRPG
             Defense += 5;
             Console.WriteLine($"{Name} leveled up to level {Level}!");
             Console.WriteLine($"New stats - Health: {Health}, AttackPower: {AttackPower}, Defense: {Defense}");
+
+            LearnNewSkill();
+        }
+
+        private void LearnNewSkill()
+        {
+            if (Level == 2)
+            {
+                Skills.Add(new HealingSkill("Heal", "Restores 20 health.", 20));
+                Console.WriteLine($"{Name} learned a new skill: Heal!");
+            }
+            else if (Level == 3)
+            {
+                Skills.Add(new SpecialAttackSkill("Fireball", "Deals 40 damage.", 40));
+                Console.WriteLine($"{Name} learned a new skill: Fireball!");
+            }
+        }
+
+        public void UseItem(string itemName)
+        {
+            Item item = Inventory.GetItem(itemName);
+            if (item == null)
+            {
+                Console.WriteLine("Item not found in inventory.");
+                return;
+            }
+
+            if (item is Potion potion)
+            {
+                // Assuming max health is 100
+                Health = Math.Min(100, Health + potion.HealAmount); 
+                Console.WriteLine($"{Name} used {item.Name} and healed {potion.HealAmount} health.");
+            }
+            else if (item is Weapon weapon)
+            {
+                AttackPower += weapon.AttackPower;
+                Console.WriteLine($"{Name} equipped {item.Name} and increased attack power by {weapon.AttackPower}.");
+            }
+            else if (item is Armor armor)
+            {
+                Defense += armor.Defense;
+                Console.WriteLine($"{Name} equipped {item.Name} and increased defense by {armor.Defense}.");
+            }
+
+            Inventory.RemoveItem(item);
+        }
+
+        public void UseSkill(string skillName, Monster enemy)
+        {
+            Skill skill = Skills.FirstOrDefault(s => s.Name.Equals(skillName, StringComparison.OrdinalIgnoreCase));
+            if (skill == null)
+            {
+                Console.WriteLine("Skill not found.");
+                return;
+            }
+
+            skill.Use(this, enemy);
         }
     }
 

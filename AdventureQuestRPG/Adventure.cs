@@ -90,7 +90,7 @@ namespace AdventureQuestRPG
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"========================================");
-                Console.WriteLine("Choose an option:\n 1- Choose a new location \n 2- Attack a monster \n 3- End the game");
+                Console.WriteLine("Choose an option:\n 1- Choose a new location \n 2- Attack a monster \n 3- View Inventory \n 4- Save Game \n 5- Load Game \n 6- End the game");
                 Console.WriteLine($"========================================");
                 Console.ForegroundColor = ConsoleColor.Blue;
 
@@ -106,17 +106,37 @@ namespace AdventureQuestRPG
                         break;
 
                     case "3":
+                        ViewInventory();
+                        break;
+                    case "4":
+                        SaveLoadGame.SaveGame(player);
+                        break;
+                    case "5":
+                        Player loadedPlayer = SaveLoadGame.LoadGame();
+                        if (loadedPlayer != null)
+                            player = loadedPlayer;
+                        break;
+                    case "6":
                         Console.WriteLine("Ending the game. Goodbye!");
                         return;
-                        
-
-
                     default:
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid action. Please try again.");
                         Console.ForegroundColor = ConsoleColor.Blue;
                         break;
                 }
+            }
+        }
+
+        private void ViewInventory()
+        {
+            player.Inventory.DisplayInventory();
+            Console.WriteLine("Choose an item to use or type 'exit' to go back:");
+            string itemName = Console.ReadLine();
+
+            if (itemName.ToLower() != "exit")
+            {
+                player.UseItem(itemName);
             }
         }
 
