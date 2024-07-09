@@ -86,7 +86,7 @@ namespace AdventureQuestRPG
         {
             while (true)
             {
-                DisplayPlayerInfo(player);
+                DisplayPlayerInfo();
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"========================================");
