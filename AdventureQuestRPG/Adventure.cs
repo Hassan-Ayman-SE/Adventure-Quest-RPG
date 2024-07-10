@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,7 +86,7 @@ namespace AdventureQuestRPG
         {
             while (true)
             {
-                DisplayPlayerInfo();
+                DisplayPlayerInfo(player);
 
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine($"========================================");
